@@ -16,18 +16,18 @@ namespace wpf
             Selected = false;
             UsedListaLen = stena.Length;
             Steny = new List<Stena>() { stena };
-            stena.setLista(this);
+            stena.Lista = this;
         }
 
         public void add(Stena stena) {
             UsedListaLen += stena.Length;
             Steny.Add(stena);
-            stena.setLista(this);
+            stena.Lista = this;
         }
 
         public override string ToString()
         {
-            return String.Format("{0}, [{1}]", UsedListaLen, String.Join(", ", Steny));
+            return String.Format("{0} - [{1}]", UsedListaLen, String.Join(", ", Steny));
         }
     }
 
@@ -42,9 +42,9 @@ namespace wpf
             ListaLen = listaLen;
         }
 
-        public void pack(List<Stena> steny)
+        public List<Stena> pack(List<Stena> steny)
         {
-            List<Stena> sorted = steny.SelectMany(s => s.Length > ListaLen ? s.split(ListaLen) : new List<Stena>() { s }).OrderByDescending(s => s.Length).ToList();
+            List<Stena> sorted = steny.SelectMany(s => s.Length > ListaLen ? s.split(ListaLen) : s.reset()).OrderByDescending(s => s.Length).ToList();
 
             sorted.ForEach(stena => {
                 Lista fit = Listy.Find(lista => lista.UsedListaLen + stena.Length <= ListaLen);
@@ -54,6 +54,8 @@ namespace wpf
                     fit.add(stena);
                 }
             });
+
+            return sorted;
         }
     }
 }

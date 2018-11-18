@@ -29,30 +29,28 @@ namespace wpf
         public Point StartPoint { get; set; }
         public Direction Direction { get; set; }
         public int Length { get; set; }
+        public bool IsSplit { get; set; }
 
-        public List<Stena> Children { get; set; }
-        private Lista lista;
+        public Lista Lista { get; set; }
 
         private Stena() { }
 
-        public void setLista(Lista lista)
-        {
-            this.lista = lista;
-        }
-
-        public List<Lista> getListy()
-        {
-            return Children == null ? new List<Lista>() { lista } : Children.Select(s => s.lista).ToList();
-        }
-
         public List<Stena> split(int listaLen)
         {
-            List<Stena> children = new List<Stena>() {
-                new Stena() { StartPoint = StartPoint, Direction = Direction, Length = listaLen },
-                new Stena() { StartPoint = StartPoint, Direction = Direction, Length = Length - listaLen }
-            };
-            Children = children;
-            return children;
+            int splits = (int) Math.Ceiling((double) Length / listaLen);
+            
+            List<Stena> steny = Enumerable.Range(1, splits).Select(i => new Stena() { StartPoint = StartPoint, Direction = Direction, Length = listaLen, IsSplit = true }).ToList();
+            steny.Aggregate((s1, s2) => { s2.StartPoint = s1.GetEndPoint(); return s2; });
+            steny.Last().Length = Length - (splits - 1) * listaLen;
+
+            IsSplit = true;
+            return steny;
+        }
+
+        public List<Stena> reset()
+        {
+            IsSplit = false;
+            return new List<Stena>() { this };
         }
 
         public Point GetEndPoint()
@@ -86,7 +84,7 @@ namespace wpf
 
         public override string ToString()
         {
-            return Length.ToString();
+            return String.Format("{0}{1}", Length, IsSplit ? "*" : "");
         }
     }
 

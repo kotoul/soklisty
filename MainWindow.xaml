@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="listyWindow" x:Class="wpf.MainWindow"
-        Title="Lišty" d:DesignWidth="1004" d:DesignHeight="550">
+        Title="Lišty" d:DesignWidth="1000" d:DesignHeight="500" Width="1600" Height="800">
     <Grid x:Name="grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="40px"/>
@@ -15,12 +15,11 @@
 
         <Canvas x:Name="canvas" Grid.Column="1" Grid.Row="1"/>
 
-        <StackPanel Grid.RowSpan="2">
-            <!-- 389, 382, 332, 330, 320, 319, 250, 221, 167, 149, 147, 147, 135, 131, 130, 98, 96, 81, 81, 78, 75, 57, 56, 55, 52, 40, 40, 32, 24, 18, 15, 15, 15, 15, 14, 14, 10, 10, 10, 10, 8, 8, 8, 8, 7 -->
+        <StackPanel x:Name="stackPanel" Grid.RowSpan="2">
             <Label x:Name="lenLbl" Content="Délka lišty"/>
             <TextBox x:Name="lenTbox" TextWrapping="Wrap" Text="250" TextChanged="lenTboxChanged" KeyDown="poleKeyDown"/>
-            <Button x:Name="poleBtn" Content="Pack" Margin="15,10" Click="packClick"/>
-            <ListBox x:Name="listyLst" MinHeight="20" SelectionChanged="listyLstChanged"/>
+            <Button x:Name="poleBtn" Content="Přepočítat" Margin="15,10" Click="packClick"/>
+            <ListBox x:Name="listyLst" MinHeight="20" MaxHeight="400px" SelectionChanged="listyLstChanged"/>
             <Label x:Name="resLbl" Content=""/>
         </StackPanel>
     </Grid>

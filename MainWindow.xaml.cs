@@ -24,6 +24,8 @@ namespace wpf
         private ListyEngine listyEngine;
         private StenyEngine stenyEngine;
 
+        private List<Stena> toDraw;
+
         public MainWindow()
         {
             listyEngine = new ListyEngine(0);
@@ -38,18 +40,18 @@ namespace wpf
             listyLst.Items.Clear();
 
             listyEngine.Listy.Clear();
-            listyEngine.pack(stenyEngine.Steny);
+            toDraw = listyEngine.pack(stenyEngine.Steny);
             listyEngine.Listy.ForEach(lista => listyLst.Items.Add(lista));
 
             int sum = stenyEngine.Steny.Select(s => s.Length).Sum();
-            resLbl.Content = String.Format("Sum: {0}, needed at least: {1}, used: {2}", sum, (sum + listyEngine.ListaLen - 1) / listyEngine.ListaLen, listyEngine.Listy.Count);
+            resLbl.Content = String.Format("Délka: {0}, nejméně: {1}, použito: {2}", sum, (sum + listyEngine.ListaLen - 1) / listyEngine.ListaLen, listyEngine.Listy.Count);
         }
 
         private void drawSteny()
         {
             canvas.Children.Clear();
-            stenyEngine.Steny.ForEach(stena => {
-                Brush stroke = stena.getListy().Any(l => l.Selected) ? stena.Children != null ? Brushes.Pink : Brushes.Red : Brushes.Black;
+            toDraw.ForEach(stena => {
+                Brush stroke = stena.Lista.Selected ? stena.IsSplit ? Brushes.Orange : Brushes.Red : Brushes.Black;
                 Line line = new Line() { X1 = stena.StartPoint.X, Y1 = stena.StartPoint.Y, X2 = stena.GetEndPoint().X, Y2 = stena.GetEndPoint().Y, 
                                          Stroke = stroke, StrokeThickness = stroke != Brushes.Black ? 8 : 2 };
                 canvas.Children.Add(line);
