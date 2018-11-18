@@ -95,30 +95,10 @@ namespace wpf
         public StenyEngine()
         {
             Steny = new List<Stena>();
-            Steny.AddRange(fillStartingPoints(MojePokoje.pokoj()));
-            Steny.AddRange(fillStartingPoints(MojePokoje.obyvak()));
-            Steny.AddRange(fillStartingPoints(MojePokoje.loznice()));
-            Steny.AddRange(fillStartingPoints(MojePokoje.kuchyne()));
-        }
-
-        private List<Stena> fillStartingPoints(List<Stena> steny) 
-        {
-            steny.Aggregate((s1, s2) => {
-                if (s1.StartPoint != null)
-                {
-                    if (s2.StartPoint != null)
-                    {
-                        return s2;
-                    }
-                    s2.StartPoint = s1.GetEndPoint();
-                }
-                else
-                {
-                    throw new InvalidOperationException("Nesedi starty sten");
-                }
-                return s2;
-            });
-            return steny;
+            Steny.AddRange(MojePokoje.pokoj());
+            Steny.AddRange(MojePokoje.obyvak());
+            Steny.AddRange(MojePokoje.loznice());
+            Steny.AddRange(MojePokoje.kuchyne());
         }
     }
 }
