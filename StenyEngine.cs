@@ -98,7 +98,7 @@ namespace wpf
             Steny.AddRange(MojePokoje.pokoj());
             Steny.AddRange(MojePokoje.obyvak());
             Steny.AddRange(MojePokoje.loznice());
-            Steny.AddRange(MojePokoje.kuchyne());
+            //Steny.AddRange(MojePokoje.kuchyne());
         }
     }
 }
